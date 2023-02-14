@@ -1,5 +1,8 @@
 # Import the required libraries
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import json
 import resources
@@ -23,9 +26,10 @@ except Exception as e:
     print("An error occurred while navigating to the URL:", e)
     browser.quit()
 
-# Wait for the page to fully load
+# Wait for the presence of the '.sticky-description' element on the page to be located using the WebDriverWait method
 try:
-    browser.implicitly_wait(resources.IMPLICIT_WAIT)
+    wait = WebDriverWait(browser, resources.IMPLICIT_WAIT)
+    element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".sticky-description")))
 except Exception as e:
     print("An error occurred while waiting for the page to load:", e)
     browser.quit()
